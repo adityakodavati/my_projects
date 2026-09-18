@@ -9,8 +9,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class Response <T>{
+public class Response <T, String, Boolean>{
     private T data;
     private String message;
-    private boolean success;
+    private Boolean success;
 }

@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<Response<ProductEntity>> handleProductNotFoundEx(ProductNotFoundException ex)
+    public ResponseEntity<Response<ProductEntity,String, Boolean>> handleProductNotFoundEx(ProductNotFoundException ex)
     {
-        Response<ProductEntity> response = new Response<>(null, ex.getMessage(),false);
+        Response<ProductEntity, String, Boolean> response = new Response<>(null, ex.getMessage(),false);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
