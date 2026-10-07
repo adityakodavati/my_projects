@@ -3,10 +3,15 @@ package com.system.readycrudop.service;
 import com.system.readycrudop.entity.ProductEntity;
 import com.system.readycrudop.exception.ProductNotFoundException;
 import com.system.readycrudop.repository.IProductRepository;
+import com.system.readycrudop.specification.EmployeeSpecification;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +23,7 @@ import java.util.Optional;
 @Service
 public class ProductService implements IProductService {
 
-    @Autowired
+
     private final IProductRepository repository;
 
     public List<ProductEntity> findAllProductsFromDb() {
@@ -54,12 +59,15 @@ public class ProductService implements IProductService {
       foundProduct.setDescription(product.getDescription());
       repository.save(foundProduct);
     }
-@Override
-    public List<ProductEntity> createProducts(
-            List<ProductEntity> products) {
 
+    @Override
+    public List<ProductEntity> createProducts(List<ProductEntity> products) {
         return repository.saveAll(products);
     }
 
-
+    @Override
+    public Page<ProductEntity> getProductsInPages(String search,Pageable pageable) {
+        Specification specification =  EmployeeSpecification.getSpecification(search);
+            return repository.findAll(specification,pageable);
+       }
 }
